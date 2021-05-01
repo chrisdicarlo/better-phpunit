@@ -3,6 +3,7 @@ const assert = require('assert');
 const PhpUnitCommand = require('./phpunit-command');
 const RemotePhpUnitCommand = require('./remote-phpunit-command.js');
 const DockerPhpUnitCommand = require('./docker-phpunit-command.js');
+const ArtisanTestCommand = require('./artisan-test-command.js');
 
 var globalCommand;
 
@@ -16,6 +17,8 @@ module.exports.activate = function (context) {
             command = new DockerPhpUnitCommand;
         } else if (vscode.workspace.getConfiguration("better-phpunit").get("ssh.enable")) {
             command = new RemotePhpUnitCommand;
+        } else if (vscode.workspace.getConfiguration("better-phpunit").get("localEnv")) {
+            command = new ArtisanTestCommand;
         } else {
             command = new PhpUnitCommand;
         }
@@ -30,6 +33,8 @@ module.exports.activate = function (context) {
             command = new DockerPhpUnitCommand({ runFile: true });
         } else if (vscode.workspace.getConfiguration("better-phpunit").get("ssh.enable")) {
             command = new RemotePhpUnitCommand({ runFile: true });
+        } else if (vscode.workspace.getConfiguration("better-phpunit").get("localEnv")) {
+            command = new ArtisanTestCommand({ runFile: true });
         } else {
             command = new PhpUnitCommand({ runFile: true });
         }
@@ -44,6 +49,8 @@ module.exports.activate = function (context) {
             command = new DockerPhpUnitCommand({ runFullSuite: true });
         } else if (vscode.workspace.getConfiguration("better-phpunit").get("ssh.enable")) {
             command = new RemotePhpUnitCommand({ runFullSuite: true });
+        } else if (vscode.workspace.getConfiguration("better-phpunit").get("localEnv")) {
+            command = new ArtisanTestCommand({ runFullSuite: true });
         } else {
             command = new PhpUnitCommand({ runFullSuite: true });
         }
